@@ -16,11 +16,9 @@ public class Pawn extends Piece {
 
     @Override
     public Move[] getMoves() {
-        ArrayList<Point> points = new ArrayList<Point>();
-        Point location = this.getLocation();
         Move[] moves = new Move[2];
         int dir = 1;
-        if (startLocation.y != 1) {
+        if (startLocation.y == 6) {
             dir *= -1;
         }
 

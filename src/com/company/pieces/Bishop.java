@@ -16,9 +16,6 @@ public class Bishop extends Piece {
 
     @Override
     public Move[] getMoves() {
-        ArrayList<Point> points = new ArrayList<Point>();
-        Point location = this.getLocation();
-
         int[][] directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
         Move[] moves = new Move[1];
