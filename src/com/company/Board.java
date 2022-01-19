@@ -37,9 +37,11 @@ public class Board {
     }
     
     public ArrayList<Point> getMoves(Point location) {
-        Piece piece = this.matrix[location.y][location.x];
-        
         ArrayList<Point> points = new ArrayList<Point>();
+        Piece piece = this.matrix[location.y][location.x];
+        if (piece == null){
+            return points;
+        }
         Move[] moves = piece.getMoves();
         for (Move move : moves) {
             for (int[] dir : move.getDirs()) {
