@@ -4,6 +4,7 @@ import com.company.pieces.Bishop;
 import com.company.pieces.King;
 import com.company.pieces.Pawn;
 import com.company.pieces.Piece;
+import com.company.pieces.Queen;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -12,19 +13,19 @@ import java.util.stream.Collectors;
 public class Board {
     
     Piece[][] matrix = {
-        {new Bishop("white", new Point(0, 0)), new Bishop("white", new Point(1, 0)), new Bishop("white", new Point(2, 0)), new Bishop("white", new Point(3, 0)),
-         new Bishop("white", new Point(4, 0)), new Bishop("white", new Point(5, 0)), new Bishop("white", new Point(6, 0)), new Bishop("white", new Point(7, 0))},
+        {new Bishop("white", new Point(0, 0)), new Bishop("white", new Point(1, 0)), new Bishop("white", new Point(2, 0)), new Queen("white", new Point(3, 0)),
+         new King("white", new Point(4, 0)), new Bishop("white", new Point(5, 0)), new Bishop("white", new Point(6, 0)), new Bishop("white", new Point(7, 0))},
         {new Pawn("white", new Point(0, 1)), new Pawn("white", new Point(1, 1)), new Pawn("white", new Point(2, 1)), new Pawn("white", new Point(3, 1)),
          new Pawn("white", new Point(4, 1)), new Pawn("white", new Point(5, 1)), new Pawn("white", new Point(6, 1)), new Pawn("white", new Point(7, 1)),},
         {null, null, null, null, null, null, null, null},
         {null, null, null, null, null, null, null, null},
         {null, null, null, null, null, null, null, null},
         {null, null, null, null, null, null, null, null},
-        {new Bishop("white", new Point(0, 6)), new Bishop("white", new Point(1, 6)), new Bishop("white", new Point(2, 6)), new Bishop("white", new Point(3, 6)),
-         new Bishop("white", new Point(4, 6)), new Bishop("white", new Point(5, 6)), new Bishop("white", new Point(6, 6)), new Bishop("white", new Point(7, 6)),
-         new Bishop("white", new Point(0, 0))},
-        {new Pawn("white", new Point(0, 7)), new Pawn("white", new Point(1, 7)), new Pawn("white", new Point(2, 7)), new Pawn("white", new Point(3, 7)),
-         new Pawn("white", new Point(4, 7)), new Pawn("white", new Point(5, 7)), new Pawn("white", new Point(6, 7)), new Pawn("white", new Point(7, 5)),}
+        {new Pawn("black", new Point(0, 6)), new Pawn("black", new Point(1, 6)), new Pawn("black", new Point(2, 6)), new Pawn("black", new Point(3, 6)),
+         new Pawn("black", new Point(4, 6)), new Pawn("black", new Point(5, 6)), new Pawn("black", new Point(6, 6)), new Pawn("black", new Point(7, 6))},
+        {new Bishop("black", new Point(0, 7)), new Bishop("black", new Point(1, 7)), new Bishop("black", new Point(2, 7)), new Queen("black", new Point(3, 7)),
+         new King("black", new Point(4, 7)), new Bishop("black", new Point(5, 7)), new Bishop("black", new Point(6, 7)), new Bishop("black", new Point(7, 7))}
+        
     };
     
     public Board() {
@@ -91,13 +92,24 @@ public class Board {
     }
     
     public void _move(Point src, Point dst) {
-        this.matrix[dst.y][dst.x] = this.matrix[dst.y][dst.x];
+        this.matrix[dst.y][dst.x] = this.matrix[src.y][src.x];
         this.matrix[src.y][src.x] = null;
     }
     
     public boolean isMoveAllowed(Point src, Point dst) {
         ArrayList<Point> allowed = getMoves(src);
         return allowed.contains(dst);
+    }
+    
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (Piece[] row : this.matrix) {
+            for (Piece p : row) {
+                s.append(String.format("%s ", p == null ? "_" : p));
+            }
+            s.append("\n");
+        }
+        return s.toString();
     }
     
     

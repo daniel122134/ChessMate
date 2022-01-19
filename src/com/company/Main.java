@@ -11,5 +11,6 @@ public class Main {
         ArrayList<Point> points = board.getMoves(new Point(1, 1));
         System.out.println(points);
         board.move(new Point(1, 1), new Point(1, 2));
+        System.out.println(board);
     }
 }
