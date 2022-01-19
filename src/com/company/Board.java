@@ -1,11 +1,13 @@
 package com.company;
 
 import com.company.pieces.Bishop;
+import com.company.pieces.King;
 import com.company.pieces.Pawn;
 import com.company.pieces.Piece;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Board {
     
@@ -22,6 +24,10 @@ public class Board {
     
     public Board() {
         
+    }
+    
+    public Board(Board board) {
+        this.matrix = board.matrix.clone();
     }
     
     public ArrayList<Point> getMoves(Point location) {
@@ -54,7 +60,22 @@ public class Board {
                 }
             }
         }
+        if (piece instanceof King){
+            points = (ArrayList<Point>) points.stream().filter(s -> !isWin(new Board(this).move(location,s))).collect(Collectors.toList());
+        }
         return points;
     }
+    
+    public static boolean isWin(Board board){
+        return false;
+    }
+    
+    public Board move(Point src, Point dst){
+        //validate first
+        this.matrix[dst.y][dst.x] = this.matrix[dst.y][dst.x];
+        this.matrix[src.y][src.x] = null;
+        return this;
+    }
+    
     
 }
