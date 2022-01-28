@@ -24,3 +24,6 @@ hs_err_pid*
 
 .idea/
 ChessMate.iml
+target/
+build/
+.gradle

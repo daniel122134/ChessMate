@@ -1,4 +1,4 @@
-package com.company;
+package chess.logic;
 
 
 public class Move {

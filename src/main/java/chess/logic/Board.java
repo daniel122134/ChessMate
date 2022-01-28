@@ -1,10 +1,10 @@
-package com.company;
+package chess.logic;
 
-import com.company.pieces.Bishop;
-import com.company.pieces.King;
-import com.company.pieces.Pawn;
-import com.company.pieces.Piece;
-import com.company.pieces.Queen;
+import chess.logic.pieces.Bishop;
+import chess.logic.pieces.King;
+import chess.logic.pieces.Pawn;
+import chess.logic.pieces.Piece;
+import chess.logic.pieces.Queen;
 
 import java.awt.Point;
 import java.util.ArrayList;

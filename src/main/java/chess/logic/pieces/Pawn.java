@@ -1,10 +1,9 @@
-package com.company.pieces;
+package chess.logic.pieces;
 
-import com.company.IConstraint;
-import com.company.Move;
+import chess.logic.IConstraint;
+import chess.logic.Move;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Pawn extends Piece {
     private final Point startLocation;

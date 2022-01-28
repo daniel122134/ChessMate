@@ -1,6 +1,6 @@
-package com.company;
+package chess.logic;
 
-import com.company.pieces.Piece;
+import chess.logic.pieces.Piece;
 
 public interface IConstraint {
 

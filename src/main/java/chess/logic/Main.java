@@ -1,4 +1,4 @@
-package com.company;
+package chess.logic;
 
 import java.awt.Point;
 import java.util.ArrayList;

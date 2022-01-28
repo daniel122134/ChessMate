@@ -1,6 +1,6 @@
-package com.company.pieces;
+package chess.logic.pieces;
 
-import com.company.Move;
+import chess.logic.Move;
 
 import java.awt.*;
 import java.util.AbstractMap;
