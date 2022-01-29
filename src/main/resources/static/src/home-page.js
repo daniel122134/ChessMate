@@ -1,4 +1,5 @@
-import {YoffeeElement, createYoffeeElement, html} from "../libs/yoffee/yoffee.min.js";
+import {createYoffeeElement, html, YoffeeElement} from "../libs/yoffee/yoffee.min.js";
+import "./mark-down.js"
 
 const bishop = "♜";
 const knight = "♞";
@@ -6,6 +7,19 @@ const rook = "♝";
 const queen = "♛";
 const king = "♚";
 const pawn = "♟";
+let i = false;
+
+window.state = {
+    data: [[{"color": "black", "piece": bishop}, {"color": "black", "piece": knight}, {"color": "black", "piece": rook}, {"color": "black", "piece": queen}, {}, {}, {}, {}],
+        [{}, {}, {}, {}, {}, {}, {}, {}],
+        [{}, {}, {}, {}, {}, {}, {}, {}],
+        [{}, {}, {}, {}, {}, {}, {}, {}],
+        [{}, {}, {}, {}, {}, {}, {}, {}],
+        [{}, {}, {}, {}, {}, {}, {}, {}],
+        [{}, {}, {}, {}, {}, {}, {}, {}],
+        [{}, {}, {}, {}, {}, {}, {}, {}]
+    ]
+}
 
 createYoffeeElement("home-page", class extends YoffeeElement {
     render() {
@@ -101,9 +115,6 @@ createYoffeeElement("home-page", class extends YoffeeElement {
   
     
     .chess-board { border-spacing: 0; border-collapse: collapse;color: black }
-    .chess-board th { padding: .5em; }
-    .chess-board th + th { border-bottom: 1px solid #000; }
-    .chess-board th:first-child,
     .chess-board td:last-child { border-right: 1px solid #000; }
     .chess-board tr:last-child td { border-bottom: 1px solid; }
     .chess-board th:empty { border: none; }
@@ -111,26 +122,74 @@ createYoffeeElement("home-page", class extends YoffeeElement {
     .chess-board .light { background: #eee; }
     .chess-board .dark { background: #aaa; }
 
+    .table {
+          display: flex;
+          flex-direction: column;
+          }
+    .row {
+          display: flex;
+          flex-direction: row;
+          }
+          
+    .header {
+            font-weight: bold;
+          }
+          
+    .cell {
+        font-size: 66px;
+        text-align: center;
+        width: 100px;
+        height: 100px;
+          }
+          
 </style>
-<div id="title-block-container">
-    <div id="title-text-container">
-        <div id="title-text">ChessMate</div>
-    </div>
-</div>
+        
+        <div class="table">
+          
+            ${() => state.data.map(row => html({"row": row})
+            `
+           
+                    ${() => this.get_row(row)}
+           
+            `
+        )}
+            
+        </div>
+   
+    
+</script>
 
-<table class="chess-board">
-    <tbody>
-        
-        
-        
-    </tbody>
-</table>
+
+<i-am-table></i-am-table>
+
 
 
         `
     }
-    
+
+    get_cell(cell) {
+        i = !i;
+        let color = "#4e4e4e";
+        if (i % 2 === 0) {
+            color = "#b5b5b5"
+        }
+        return html({"cell": cell})`<div class="cell" style="color: ${cell.color}; background-color: ${color}">
+                    ${() => cell.piece}
+                </div>   `
+    }
+
+    get_row(row) {
+        i = !i;
+
+        return html({"row": row})`<div class="row">
+            ${() => row.map(cell => html({"cell": cell})
+            `    
+                ${() => this.get_cell(cell)}
+            `
+        )}
+        </div> `
+    }
+
 });
 
 
-import "./mark-down.js"
