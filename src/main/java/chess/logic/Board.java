@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class Board {
     
-    Piece[][] matrix = {
+    public Piece[][] matrix = {
         {new Bishop("white", new Point(0, 0)), new Bishop("white", new Point(1, 0)), new Bishop("white", new Point(2, 0)), new Queen("white", new Point(3, 0)),
          new King("white", new Point(4, 0)), new Bishop("white", new Point(5, 0)), new Bishop("white", new Point(6, 0)), new Bishop("white", new Point(7, 0))},
         {new Pawn("white", new Point(0, 1)), new Pawn("white", new Point(1, 1)), new Pawn("white", new Point(2, 1)), new Pawn("white", new Point(3, 1)),

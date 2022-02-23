@@ -10,7 +10,7 @@ const pawn = "♟";
 let i = false;
 
 window.state = {
-    data: [[{"color": "black", "piece": bishop}, {"color": "black", "piece": knight}, {"color": "black", "piece": rook}, {"color": "black", "piece": queen}, {}, {}, {}, {}],
+    data: [[{"color": "black", "type": bishop}, {"color": "black", "type": knight}, {"color": "black", "type": rook}, {"color": "black", "type": queen}, {}, {}, {}, {}],
         [{}, {}, {}, {}, {}, {}, {}, {}],
         [{}, {}, {}, {}, {}, {}, {}, {}],
         [{}, {}, {}, {}, {}, {}, {}, {}],
@@ -21,9 +21,29 @@ window.state = {
     ]
 }
 
+
+
 createYoffeeElement("home-page", class extends YoffeeElement {
+    constructor() {
+        super({});
+        setInterval(this.updateBoard,200);
+        setInterval(this.randomMove,500);
+    }
+    randomMove(){
+        fetch('http://localhost:8080/random')
+            .then(response => response.json())
+            .then(data => { console.log(data);
+            });
+    }
+    updateBoard(){
+        fetch('http://localhost:8080/board')
+            .then(response => response.json())
+            .then(data => {                state.data = data.content;
+            });
+    }
     render() {
-        return html(this.state)`
+        
+        return html(this.state, state)`
 <style>
     :host {
         display: flex;
@@ -174,7 +194,7 @@ createYoffeeElement("home-page", class extends YoffeeElement {
             color = "#b5b5b5"
         }
         return html({"cell": cell})`<div class="cell" style="color: ${cell.color}; background-color: ${color}">
-                    ${() => cell.piece}
+                    ${() => cell.type}
                 </div>   `
     }
 

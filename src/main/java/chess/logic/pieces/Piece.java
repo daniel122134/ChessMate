@@ -4,6 +4,7 @@ import chess.logic.Move;
 
 import java.awt.*;
 import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,7 +19,8 @@ enum Type {
 }
 
 
-public abstract class Piece {
+public abstract class 
+Piece {
     private final Type type;
     private final String color;
     Map<Type, Integer> map = Stream.of(
@@ -54,5 +56,12 @@ public abstract class Piece {
 
     public void setLocation(Point location) {
         this.location = location;
+    }
+    
+    public HashMap<String,String> toJson(){
+        HashMap<String,String> object = new HashMap<>();
+        object.put("type",this.toString());
+        object.put("color", this.color);
+        return object;
     }
 }

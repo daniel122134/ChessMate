@@ -52,6 +52,6 @@ public class Pawn extends Piece {
     
     @Override
     public String toString() {
-        return "p";
+        return "♟";
     }
 }
