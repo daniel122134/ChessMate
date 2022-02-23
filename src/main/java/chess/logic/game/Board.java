@@ -13,7 +13,14 @@ public class Board {
     }
     
     public Board(Board board) {
-        this.matrix = board.matrix.clone();
+        this.matrix = new Piece[board.matrix.length][board.matrix[0].length];
+        for (int i = 0; i < board.matrix.length; i++) {
+            for (int j = 0; j < board.matrix[i].length; j++) {
+                this.matrix[i][j] = board.matrix[i][j];
+    
+            }
+    
+        }
     }
     
     public Piece getPieceAtLocation(Point location) {
