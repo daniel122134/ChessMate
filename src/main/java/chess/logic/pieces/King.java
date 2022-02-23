@@ -1,15 +1,15 @@
 package chess.logic.pieces;
 
-import chess.logic.IConstraint;
-import chess.logic.Move;
+import chess.logic.game.IConstraint;
+import chess.logic.game.Move;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 
 public class King extends Piece {
     
     public King(String color, Point location) {
-        super(Type.KING, color, location);
+        super(PieceType.KING, color, location);
     }
     
     
@@ -31,6 +31,7 @@ public class King extends Piece {
         return moves;
         
     }
+    
     @Override
     public String toString() {
         return "♚";

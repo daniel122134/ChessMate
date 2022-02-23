@@ -1,18 +1,19 @@
 package chess.logic.pieces;
 
-import chess.logic.IConstraint;
-import chess.logic.Move;
+import chess.logic.game.IConstraint;
+import chess.logic.game.Move;
 
-import java.awt.*;
+import java.awt.Point;
 
 public class Pawn extends Piece {
+    
     private final Point startLocation;
-
+    
     public Pawn(String color, Point location) {
-        super(Type.PAWN, color, location);
+        super(PieceType.PAWN, color, location);
         this.startLocation = location;
     }
-
+    
     @Override
     public Move[] getMoves() {
         Move[] moves = new Move[2];
@@ -20,10 +21,9 @@ public class Pawn extends Piece {
         if (startLocation.y == 6) {
             dir *= -1;
         }
-
+        
         int[][] directions = {{0, dir}};
-
-
+        
         IConstraint allowedConstraint = (n, p) -> {
             return p == null;
         };
@@ -31,12 +31,9 @@ public class Pawn extends Piece {
             return true;
         };
         moves[0] = new Move(directions, allowedConstraint, lastConstraint);
-
-
-
-        int[][]  eatDirections = {{1, dir}, {-1, dir}};
-
-
+        
+        int[][] eatDirections = {{1, dir}, {-1, dir}};
+        
         allowedConstraint = (n, p) -> {
             return p != null && !p.GetColor().equals(this.GetColor());
         };
@@ -44,10 +41,9 @@ public class Pawn extends Piece {
             return true;
         };
         moves[1] = new Move(eatDirections, allowedConstraint, lastConstraint);
-
-
+        
         return moves;
-
+        
     }
     
     @Override
