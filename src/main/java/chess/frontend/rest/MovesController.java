@@ -5,9 +5,7 @@ import static chess.frontend.RestServiceApplication.game;
 
 import chess.logic.game.PlayerColors;
 import chess.logic.strategies.MoveCandidate;
-import chess.logic.strategies.Random;
 import chess.logic.strategies.minMax;
-import javafx.util.Pair;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,10 +32,10 @@ public class MovesController {
     public MovesResponse randomMove() throws Exception {
         MoveCandidate move = null;
         if (game.currentTurn == PlayerColors.BLACK) {
-            move = new minMax().getMove(PlayerColors.BLACK,1);
+            move = new minMax().getMove(PlayerColors.BLACK, 1);
             
         } else {
-            move = new minMax().getMove(PlayerColors.WHITE,2);
+            move = new minMax().getMove(PlayerColors.WHITE, 3);
         }
         game.move(move.getSrc(), move.getDst());
         ArrayList<Point> points = new ArrayList<>();
