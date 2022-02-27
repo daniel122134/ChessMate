@@ -1,5 +1,6 @@
 package chess.logic.game;
 
+import chess.logic.pieces.King;
 import chess.logic.pieces.Piece;
 
 import java.awt.Point;
@@ -36,7 +37,7 @@ public class Board {
         if (p!=null){
             p.setLocation(dst);
         }
-        this.matrix[dst.y][dst.x] = this.matrix[src.y][src.x];
+        this.matrix[dst.y][dst.x] = p;
         this.matrix[src.y][src.x] = null;
     }
     
@@ -66,15 +67,8 @@ public class Board {
     }
     
     public ArrayList<Piece> getAllLivePiecesForColor(PlayerColors color) {
-        ArrayList<Piece> pieces = new ArrayList<>();
-        for (Piece[] row : this.matrix) {
-            for (Piece p : row) {
-                if (p!=null){
-                    pieces.add(p);
-                }
-            }
-        }
-        return (ArrayList<Piece>) pieces.stream().filter(s -> {return s.getColor() == color;}).collect(Collectors.toList());
+        ArrayList<Piece> pieces = getAllLivePieces();
+        return (ArrayList<Piece>) pieces.stream().filter(s -> s.getColor() == color).collect(Collectors.toList());
     }
     
     public Board getBoardAfterMove(Point src, Point dst){
@@ -84,15 +78,69 @@ public class Board {
         
     }
     
+    public ArrayList<Point> getMoves(Point location) {
+        ArrayList<Point> points = new ArrayList<Point>();
+        Piece piece = this.getPieceAtLocation(location);
+        if (piece == null) {
+            return points;
+        }
+        Move[] moves = piece.getMoves();
+        for (Move move : moves) {
+            for (int[] dir : move.getDirs()) {
+                int step = 1;
+                
+                while (true) {
+                    
+                    Point temp = new Point(location.x + (dir[0] * step), location.y + (dir[1] * step));
+                    if (temp.x > 7 || temp.x < 0 || temp.y < 0 || temp.y > 7) {
+                        break;
+                    }
+                    Piece tempPiece = this.getPieceAtLocation(temp);
+                    if (!move.getIsAllowed().run(step, tempPiece)) {
+                        break;
+                    }
+                    
+                    points.add(temp);
+                    step += 1;
+                    
+                    if (move.getIsLast().run(step, tempPiece)) {
+                        break;
+                    }
+                    
+                }
+            }
+        }
+        if (piece instanceof King) {
+            points = (ArrayList<Point>) points.stream().filter(s -> {
+                try {
+                    Board tempBoard=this.getBoardAfterMove(location, s);
+                    return !isWin(tempBoard);
+                } catch (Exception e) {
+                    return false;
+                }
+            }).collect(Collectors.toList());
+        }
+        return points;
+    }
+    
+    public static boolean isWin(Board board) {
+        return false;
+    }
+    
+    
     public double getRank(PlayerColors color){
+        // add pawn influene
+        // reduce mvoe count wheight
+        //https://chessfox.com/example-of-the-complete-evaluation-process-of-chess-a-chess-position/
         ArrayList<Piece> piecesOnBoard = this.getAllLivePieces();
         HashMap<PlayerColors,Double> scores = new HashMap<>();
         scores.put(PlayerColors.WHITE,0.);
         scores.put(PlayerColors.BLACK,0.);
         for (Piece p : piecesOnBoard) {
             scores.put(p.getColor(), scores.get(p.getColor()) + p.getWorth());
+            scores.put(p.getColor(), this.getMoves(p.getLocation()).size() *0.5 + scores.get(p.getColor()));
         }
         
-        return scores.get(color) / scores.get(Objects.equals(color, PlayerColors.WHITE) ? PlayerColors.BLACK : PlayerColors.WHITE);
+        return scores.get(color) / scores.get(color.getOppositeColor());
     }
 }

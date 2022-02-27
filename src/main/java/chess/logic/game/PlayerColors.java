@@ -13,4 +13,5 @@ public enum PlayerColors {
     public String getColor() {
         return this.color;
     }
+    public PlayerColors getOppositeColor(){return this == PlayerColors.WHITE ? PlayerColors.BLACK : PlayerColors.WHITE;}
 }

@@ -37,70 +37,27 @@ public class Game {
         this.currentTurn = PlayerColors.WHITE;
     }
     
-    public static boolean isWin(Board board) {
-        return false;
-    }
-    
-    public ArrayList<Point> getMoves(Point location) {
-        ArrayList<Point> points = new ArrayList<Point>();
-        Piece piece = this.board.getPieceAtLocation(location);
-        if (piece == null) {
-            return points;
-        }
-        Move[] moves = piece.getMoves();
-        for (Move move : moves) {
-            for (int[] dir : move.getDirs()) {
-                int step = 1;
-                
-                while (true) {
-                    
-                    Point temp = new Point(location.x + (dir[0] * step), location.y + (dir[1] * step));
-                    if (temp.x > 7 || temp.x < 0 || temp.y < 0 || temp.y > 7) {
-                        break;
-                    }
-                    Piece tempPiece = this.board.getPieceAtLocation(temp);
-                    if (!move.getIsAllowed().run(step, tempPiece)) {
-                        break;
-                    }
-                    
-                    points.add(temp);
-                    step += 1;
-                    
-                    if (move.getIsLast().run(step, tempPiece)) {
-                        break;
-                    }
-                    
-                }
-            }
-        }
-        if (piece instanceof King) {
-            points = (ArrayList<Point>) points.stream().filter(s -> {
-                try {
-                    Board tempBoard=this.board.getBoardAfterMove(location, s);
-                    return !isWin(tempBoard);
-                } catch (Exception e) {
-                    return false;
-                }
-            }).collect(Collectors.toList());
-        }
-        return points;
-    }
+  
+
     
     public void move(Point src, Point dst) throws Exception {
         if (!isMoveAllowed(src, dst)) {
-            throw new Exception("Move not allowed");
+            throw new Exception(String.format("Move not allowed %s -> %s (%s)", src,dst,this.currentTurn));
         }
         this.board._move(src, dst);
-        this.currentTurn = this.currentTurn == PlayerColors.WHITE ? PlayerColors.BLACK : PlayerColors.WHITE;
+        this.currentTurn = this.currentTurn.getOppositeColor();
     }
     
     
     public boolean isMoveAllowed(Point src, Point dst) {
         Piece pieceToMove = this.board.getPieceAtLocation(src);
+        if (pieceToMove==null){
+            return false;
+        }
         if (!Objects.equals(pieceToMove.getColor(), this.currentTurn)) {
             return false;
         }
-        ArrayList<Point> allowed = getMoves(src);
+        ArrayList<Point> allowed = this.board.getMoves(src);
         return allowed.contains(dst);
     }
     

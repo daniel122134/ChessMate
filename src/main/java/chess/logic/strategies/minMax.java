@@ -9,27 +9,60 @@ import javafx.util.Pair;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class minMax implements Tactic{
     
     @Override
-    public Pair<Point, Point> getMove(PlayerColors player) {
-        ArrayList<Piece> pieces = game.board.getAllLivePiecesForColor(player);
-        Double maxScore = null;
-        Point src = null;
-        Point dst = null;
+    public MoveCandidate getMove(PlayerColors player, int level) {
+        return getBestMoveForBoard(game.board,player,level);
+    }
+    
+    public MoveCandidate getBestMoveForBoard(Board board, PlayerColors player, int depthToGo){
+        MoveCandidate move = null;
+        ArrayList<Piece> pieces = board.getAllLivePiecesForColor(player);
         for (Piece p: pieces) {
-            ArrayList<Point> points = game.getMoves(p.getLocation());
-            for (Point point:points) {
-                Board afterMove = game.board.getBoardAfterMove(p.getLocation(), point);
-                Double score = afterMove.getRank(player);
-                if ((maxScore == null || score > maxScore) && game.isMoveAllowed(p.getLocation(),point)){
-                    maxScore = score;
-                    src = p.getLocation();
-                    dst = point;
+            Point pointSrc = p.getLocation();
+            ArrayList<Point> points = board.getMoves(pointSrc);
+            for (Point pointDst:points) {
+                Board afterMove = board.getBoardAfterMove(pointSrc, pointDst);
+                Double score = getBestScoreForBoard(afterMove,player,player.getOppositeColor(),depthToGo);
+                if (move == null || score > move.getScore()){
+                    move = new MoveCandidate(pointSrc,pointDst,score);
                 }
             }
         }
-        return new Pair<>(src,dst);
+        return move;
     }
+    
+    public Double getBestScoreForBoard(Board board, PlayerColors player, PlayerColors currentTurn, int depthToGo){
+        if (depthToGo==0){
+            return board.getRank(player);
+        }
+        Double max = null;
+        Double min = null;
+        ArrayList<Piece> pieces = board.getAllLivePiecesForColor(currentTurn);
+        for (Piece p: pieces) {
+            ArrayList<Point> points = board.getMoves(p.getLocation());
+            for (Point point:points) {
+                Board afterMove = board.getBoardAfterMove(p.getLocation(), point);
+                Double score = getBestScoreForBoard(afterMove,player,currentTurn.getOppositeColor(),depthToGo-1);
+                if (max == null || score > max){
+                    max = score;
+                }
+                if (min == null || score < min){
+                    min = score;
+                }
+            }
+        }
+        if (player != currentTurn){
+            return min;
+        }
+        return max;
+    }
+    
+
 }

@@ -6,9 +6,6 @@ import "./components/text-input.js"
 import "./components/x-switch.js"
 import "./components/x-icon.js"
 import "./home-page.js"
-import "./about-page.js"
-import "./vote-page.js"
-import "./contact-page.js"
 
 
 customElements.define("daniel-hw-app", class extends YoffeeElement {
@@ -72,20 +69,7 @@ customElements.define("daniel-hw-app", class extends YoffeeElement {
         transition: 300ms;
         color: var(--secondary-color);
     }
-    
-    #vote-button {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-    
-    #about-button {
-        margin-left: auto !important;
-    }
-    
-    #github-button {
-        display: flex;
-    }
+   
     
     #github-button > x-icon {
         margin-left: 7px;
@@ -134,28 +118,9 @@ customElements.define("daniel-hw-app", class extends YoffeeElement {
     <x-icon id="slide-menu-button" icon="fas fa-bars"
             onclick=${() => () => state.sideMenuOpen = !state.sideMenuOpen}></x-icon>
     <img id="logo" src="res/profile.png" onclick=${() => () => this.switchPage(PAGES.home)} />
-    <div id="title" onclick=${() => () => this.switchPage(PAGES.home)}>Daniel Haddad</div>
+    <div id="title" onclick=${() => () => this.switchPage(PAGES.home)}>ChessMate</div>
     
-    <div id="about-button" class="header-button" 
-         highlight=${() => this.state.currentPage === PAGES.about}
-         onclick=${() => () => this.switchPage(PAGES.about)}>
-        About Daniel
-    </div>
-    <div id="vote-button" class="header-button" 
-         highlight=${() => this.state.currentPage === PAGES.vote}
-         onclick=${() => () => this.switchPage(PAGES.vote)}>
-        Vote for projects ♥
-    </div>
-    <div id="contact-button" class="header-button" 
-         highlight=${() => this.state.currentPage === PAGES.contact}
-         onclick=${() => () => this.switchPage(PAGES.contact)}>
-        Contact Me
-    </div>
-    <div id="github-button" class="header-button" 
-         onclick=${() => () => this.openLinkedin()}>
-        LinkedIn
-        <x-icon icon="fab fa-linkedin"></x-icon>
-    </div>
+  
     <x-switch id="dark-theme-toggle" 
               value=${() => state.darkTheme}
               switched=${() => () => {
@@ -168,12 +133,6 @@ ${() => {
             if (this.state.currentPage === PAGES.home) {
                 return html()`<home-page getstarted=${() => () => this.switchPage(PAGES.about)}
                                       github=${() => () => this.openLinkedin()}></home-page>`
-            } else if (this.state.currentPage === PAGES.about) {
-                return html()`<about-page></about-page>`
-            } else if (this.state.currentPage === PAGES.vote) {
-                return html()`<vote-page></vote-page>`
-            } else if (this.state.currentPage === PAGES.contact) {
-                return html()`<contact-page></contact-page>`
             }
         }}
 

@@ -4,6 +4,7 @@ package chess.frontend.rest;
 import static chess.frontend.RestServiceApplication.game;
 
 import chess.logic.game.PlayerColors;
+import chess.logic.strategies.MoveCandidate;
 import chess.logic.strategies.Random;
 import chess.logic.strategies.minMax;
 import javafx.util.Pair;
@@ -24,22 +25,25 @@ public class MovesController {
     public MovesResponse greeting(
         @RequestParam(value = "x") int x, @RequestParam(value = "y") int y) {
         
-        ArrayList<Point> points = game.getMoves(new Point(x, y));
+        ArrayList<Point> points = game.board.getMoves(new Point(x, y));
         
         return new MovesResponse(counter.incrementAndGet(), points);
     }
     
     @GetMapping("/random")
     public MovesResponse randomMove() throws Exception {
-        Pair<Point, Point> move = null;
+        MoveCandidate move = null;
         if (game.currentTurn == PlayerColors.BLACK) {
-            move = new Random().getMove(PlayerColors.BLACK);
+            move = new minMax().getMove(PlayerColors.BLACK,1);
             
         } else {
-            move = new minMax().getMove(PlayerColors.WHITE);
+            move = new minMax().getMove(PlayerColors.WHITE,2);
         }
-        game.move(move.getKey(), move.getValue());
-        return new MovesResponse(counter.incrementAndGet(), null);
+        game.move(move.getSrc(), move.getDst());
+        ArrayList<Point> points = new ArrayList<>();
+        points.add(move.getSrc());
+        points.add(move.getDst());
+        return new MovesResponse(counter.incrementAndGet(), points);
         
     }
 }

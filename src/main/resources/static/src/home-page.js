@@ -26,13 +26,17 @@ window.state = {
 createYoffeeElement("home-page", class extends YoffeeElement {
     constructor() {
         super({});
-        setInterval(this.updateBoard,200);
-        setInterval(this.randomMove,500);
+        setInterval(this.updateBoard,500);
+        this.randomMove()    
     }
+    
     randomMove(){
         fetch('http://localhost:8080/random')
             .then(response => response.json())
-            .then(data => { console.log(data);
+            .then(data => { 
+                console.log(data);
+                this.randomMove()
+
             });
     }
     updateBoard(){

@@ -7,6 +7,6 @@ import java.awt.Point;
 
 public interface Tactic {
     
-    public Pair<Point, Point> getMove(PlayerColors player);
+    public MoveCandidate getMove(PlayerColors player, int level);
     
 }
