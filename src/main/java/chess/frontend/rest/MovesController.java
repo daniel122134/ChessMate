@@ -3,7 +3,9 @@ package chess.frontend.rest;
 
 import static chess.frontend.RestServiceApplication.game;
 
+import chess.logic.game.PlayerColors;
 import chess.logic.strategies.Random;
+import chess.logic.strategies.minMax;
 import javafx.util.Pair;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,8 +31,13 @@ public class MovesController {
     
     @GetMapping("/random")
     public MovesResponse randomMove() throws Exception {
-        
-        Pair<Point, Point> move = new Random().getMove(null);
+        Pair<Point, Point> move = null;
+        if (game.currentTurn == PlayerColors.BLACK) {
+            move = new Random().getMove(PlayerColors.BLACK);
+            
+        } else {
+            move = new minMax().getMove(PlayerColors.WHITE);
+        }
         game.move(move.getKey(), move.getValue());
         return new MovesResponse(counter.incrementAndGet(), null);
         

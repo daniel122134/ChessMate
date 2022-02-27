@@ -2,16 +2,22 @@ package chess.logic.pieces;
 
 import chess.logic.game.IConstraint;
 import chess.logic.game.Move;
+import chess.logic.game.PlayerColors;
 
 import java.awt.Point;
 
 public class Pawn extends Piece {
     
-    private final Point startLocation;
+    private Point startLocation;
     
-    public Pawn(String color, Point location) {
+    public Pawn(PlayerColors color, Point location) {
         super(PieceType.PAWN, color, location);
         this.startLocation = location;
+    }
+    
+    public Pawn(Pawn pawn) {
+        this(pawn.getColor(),pawn.getLocation());
+        this.startLocation = pawn.startLocation;
     }
     
     @Override
@@ -35,7 +41,7 @@ public class Pawn extends Piece {
         int[][] eatDirections = {{1, dir}, {-1, dir}};
         
         allowedConstraint = (n, p) -> {
-            return p != null && !p.GetColor().equals(this.GetColor());
+            return p != null && !p.getColor().equals(this.getColor());
         };
         lastConstraint = (n, p) -> {
             return true;
@@ -49,5 +55,10 @@ public class Pawn extends Piece {
     @Override
     public String toString() {
         return "♟";
+    }
+    
+    @Override
+    public Piece copy() {
+        return new Pawn(this);
     }
 }

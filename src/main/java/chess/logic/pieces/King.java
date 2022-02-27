@@ -2,14 +2,19 @@ package chess.logic.pieces;
 
 import chess.logic.game.IConstraint;
 import chess.logic.game.Move;
+import chess.logic.game.PlayerColors;
 
 import java.awt.Point;
 import java.util.ArrayList;
 
 public class King extends Piece {
     
-    public King(String color, Point location) {
+    public King(PlayerColors color, Point location) {
         super(PieceType.KING, color, location);
+    }
+    
+    public King(King king) {
+        this(king.getColor(),king.getLocation());
     }
     
     
@@ -22,7 +27,7 @@ public class King extends Piece {
         
         Move[] moves = new Move[1];
         IConstraint constraint = (n, p) -> {
-            return p == null || !p.GetColor().equals(this.GetColor());
+            return p == null || !p.getColor().equals(this.getColor());
         };
         IConstraint lastConstraint = (n, p) -> {
             return true;
@@ -37,4 +42,8 @@ public class King extends Piece {
         return "♚";
     }
     
+    @Override
+    public Piece copy() {
+        return new King(this);
+    }
 }

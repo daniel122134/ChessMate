@@ -2,14 +2,19 @@ package chess.logic.pieces;
 
 import chess.logic.game.IConstraint;
 import chess.logic.game.Move;
+import chess.logic.game.PlayerColors;
 
 import java.awt.Point;
 
 public class Bishop extends Piece {
     
     
-    public Bishop(String color, Point location) {
+    public Bishop(PlayerColors color, Point location) {
         super(PieceType.BISHOP, color, location);
+    }
+    
+    public Bishop(Bishop bishop) {
+        this(bishop.getColor(),bishop.getLocation());
     }
     
     
@@ -19,7 +24,7 @@ public class Bishop extends Piece {
         
         Move[] moves = new Move[1];
         IConstraint constraint = (n, p) -> {
-            return p == null || !p.GetColor().equals(this.GetColor());
+            return p == null || !p.getColor().equals(this.getColor());
         };
         IConstraint lastConstraint = (n, p) -> {
             return p != null;
@@ -32,5 +37,10 @@ public class Bishop extends Piece {
     @Override
     public String toString() {
         return "♜";
+    }
+    
+    @Override
+    public Piece copy() {
+        return new Bishop(this);
     }
 }

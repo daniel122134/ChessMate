@@ -8,7 +8,7 @@ import javafx.util.Pair;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class Random {
+public class Random implements Tactic {
     
     public Pair<Point, Point> getMove(PlayerColors player) {
         while (true) {

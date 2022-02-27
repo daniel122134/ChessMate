@@ -2,14 +2,19 @@ package chess.logic.pieces;
 
 import chess.logic.game.IConstraint;
 import chess.logic.game.Move;
+import chess.logic.game.PlayerColors;
 
 import java.awt.Point;
 import java.util.ArrayList;
 
 public class Queen extends Piece {
     
-    public Queen(String color, Point location) {
+    public Queen(PlayerColors color, Point location) {
         super(PieceType.QUEEN, color, location);
+    }
+    
+    public Queen(Queen queen) {
+        this(queen.getColor(),queen.getLocation());
     }
     
     
@@ -22,7 +27,7 @@ public class Queen extends Piece {
         
         Move[] moves = new Move[1];
         IConstraint constraint = (n, p) -> {
-            return p == null || !p.GetColor().equals(this.GetColor());
+            return p == null || !p.getColor().equals(this.getColor());
         };
         IConstraint lastConstraint = (n, p) -> {
             return p != null;
@@ -37,4 +42,8 @@ public class Queen extends Piece {
         return "♛";
     }
     
+    @Override
+    public Piece copy() {
+        return new Queen(this);
+    }
 }
