@@ -50,12 +50,9 @@ public class minMax implements Tactic{
             for (Point point:points) {
                 Board afterMove = board.getBoardAfterMove(p.getLocation(), point);
                 Double score = getBestScoreForBoard(afterMove,player,currentTurn.getOppositeColor(),depthToGo-1);
-                if (max == null || score > max){
-                    max = score;
-                }
-                if (min == null || score < min){
-                    min = score;
-                }
+                max = max!=null ? Math.max(score,max) : score;
+                min = min!=null ? Math.min(score,min) : score;
+                
             }
         }
         return player != currentTurn ? min : max;
