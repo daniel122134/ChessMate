@@ -6,22 +6,22 @@ import chess.logic.game.PlayerColors;
 
 import java.awt.Point;
 
-public class Bishop extends Piece {
-
-
-    public Bishop(PlayerColors color, Point location) {
-        super(PieceType.BISHOP, color, location);
+public class Rook extends Piece {
+    
+    
+    public Rook(PlayerColors color, Point location) {
+        super(PieceType.ROOK, color, location);
     }
-
-    public Bishop(Bishop bishop) {
-        this(bishop.getColor(),bishop.getLocation());
+    
+    public Rook(Rook rook) {
+        this(rook.getColor(),rook.getLocation());
     }
-
-
+    
+    
     @Override
     public Move[] getMoves() {
-        int[][] directions = {{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
-
+        int[][] directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        
         Move[] moves = new Move[1];
         IConstraint constraint = (n, p) -> {
             return p == null || !p.getColor().equals(this.getColor());
@@ -31,16 +31,16 @@ public class Bishop extends Piece {
         };
         moves[0] = new Move(directions, constraint, lastConstraint);
         return moves;
-
+        
     }
-
+    
     @Override
     public String toString() {
-        return "♝";
+        return "♜";
     }
-
+    
     @Override
     public Piece copy() {
-        return new Bishop(this);
+        return new Rook(this);
     }
 }
