@@ -130,7 +130,9 @@ public class Board {
     
     public double getRank(PlayerColors color){
         // add pawn influene
-        // reduce mvoe count wheight
+        // king defence
+        // obtain castling
+        // re calculate top 1% if more then 1 option exists - only do this one time
         //https://chessfox.com/example-of-the-complete-evaluation-process-of-chess-a-chess-position/
         ArrayList<Piece> piecesOnBoard = this.getAllLivePieces();
         HashMap<PlayerColors,Double> scores = new HashMap<>();
@@ -138,7 +140,7 @@ public class Board {
         scores.put(PlayerColors.BLACK,0.);
         for (Piece p : piecesOnBoard) {
             scores.put(p.getColor(), scores.get(p.getColor()) + p.getWorth());
-            scores.put(p.getColor(), this.getMoves(p.getLocation()).size() *0.5 + scores.get(p.getColor()));
+            scores.put(p.getColor(), this.getMoves(p.getLocation()).size() * 0.5 + scores.get(p.getColor()));
         }
         
         return scores.get(color) / scores.get(color.getOppositeColor());

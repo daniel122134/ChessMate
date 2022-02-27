@@ -58,11 +58,6 @@ public class minMax implements Tactic{
                 }
             }
         }
-        if (player != currentTurn){
-            return min;
-        }
-        return max;
+        return player != currentTurn ? min : max;
     }
-    
-
 }
