@@ -35,7 +35,7 @@ public class MovesController {
             move = new minMax().getMove(PlayerColors.BLACK, 1);
             
         } else {
-            move = new minMax().getMove(PlayerColors.WHITE, 2);
+            move = new minMax().getMove(PlayerColors.WHITE, 3);
         }
         game.move(move.getSrc(), move.getDst());
         ArrayList<Point> points = new ArrayList<>();
