@@ -32,7 +32,7 @@ public class MovesController {
     public MovesResponse randomMove() throws Exception {
         MoveCandidate move = null;
         if (game.currentTurn == PlayerColors.BLACK) {
-            move = new minMax().getMove(PlayerColors.BLACK, 1);
+            move = new minMax().getMove(PlayerColors.BLACK, 2);
             
         } else {
             move = new minMax().getMove(PlayerColors.WHITE, 2);  // level was 3

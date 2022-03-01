@@ -140,7 +140,7 @@ public class Board {
         scores.put(PlayerColors.BLACK,0.);
         for (Piece p : piecesOnBoard) {
             scores.put(p.getColor(), scores.get(p.getColor()) + p.getWorth());
-            scores.put(p.getColor(), this.getMoves(p.getLocation()).size() * 0.5 + scores.get(p.getColor()));
+            scores.put(p.getColor(), this.getMoves(p.getLocation()).size() * 0.1 + scores.get(p.getColor()));
         }
         
         return scores.get(color) / scores.get(color.getOppositeColor());
