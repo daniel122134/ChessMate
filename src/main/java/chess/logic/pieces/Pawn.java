@@ -35,7 +35,7 @@ public class Pawn extends Piece {
         };
         IConstraint lastConstraint = (n, p) -> {
             return (!this.getLocation().equals(this.startLocation) ||
-                    (n != 2) || (p != null));
+                    (n != 1) || (p != null));
         };
 
         moves[0] = new Move(directions, allowedConstraint, lastConstraint);

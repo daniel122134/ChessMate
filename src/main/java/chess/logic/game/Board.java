@@ -101,11 +101,12 @@ public class Board {
                     }
                     
                     points.add(temp);
-                    step += 1;
                     
                     if (move.getIsLast().run(step, tempPiece)) {
                         break;
                     }
+
+                    step += 1;
                     
                 }
             }
