@@ -63,4 +63,10 @@ public class Pawn extends Piece {
     public Piece copy() {
         return new Pawn(this);
     }
+    
+    
+    @Override
+    public int getWorth() {
+        return 1;
+    }
 }

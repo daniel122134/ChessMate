@@ -33,14 +33,18 @@ public class Board {
     
     
     public void _move(Point src, Point dst) {
-        Piece p  = this.matrix[src.y][src.x];
-        if (p!=null){
-            p.setLocation(dst);
+        Piece p  = getPieceAtLocation(src);
+        if (p!=null) {
+            placePiece(p, dst);
         }
-        this.matrix[dst.y][dst.x] = p;
-        this.matrix[src.y][src.x] = null;
     }
     
+    public void placePiece(Piece p, Point dst){
+        this.matrix[p.getLocation().y][p.getLocation().x] = null;
+        p.setLocation(dst);
+        this.matrix[dst.y][dst.x] = p;
+    
+    }
     
     public String toString() {
         StringBuilder s = new StringBuilder();
@@ -79,7 +83,7 @@ public class Board {
     }
     
     public ArrayList<Point> getMoves(Point location) {
-        ArrayList<Point> points = new ArrayList<Point>();
+        ArrayList<Point> points = new ArrayList<>();
         Piece piece = this.getPieceAtLocation(location);
         if (piece == null) {
             return points;
@@ -114,8 +118,9 @@ public class Board {
         if (piece instanceof King) {
             points = (ArrayList<Point>) points.stream().filter(s -> {
                 try {
-                    Board tempBoard=this.getBoardAfterMove(location, s);
-                    return !isWin(tempBoard);
+                    return true;
+//                    Board tempBoard=this.getBoardAfterMove(location, s);
+//                    return !isWin(tempBoard);
                 } catch (Exception e) {
                     return false;
                 }
@@ -137,13 +142,23 @@ public class Board {
         //https://chessfox.com/example-of-the-complete-evaluation-process-of-chess-a-chess-position/
         ArrayList<Piece> piecesOnBoard = this.getAllLivePieces();
         HashMap<PlayerColors,Double> scores = new HashMap<>();
-        scores.put(PlayerColors.WHITE,0.);
-        scores.put(PlayerColors.BLACK,0.);
+        double whiteScore = 0.;
+        double blackScore = 0.;
         for (Piece p : piecesOnBoard) {
-            scores.put(p.getColor(), scores.get(p.getColor()) + p.getWorth());
-            scores.put(p.getColor(), this.getMoves(p.getLocation()).size() * 0.1 + scores.get(p.getColor()));
+            switch (p.getColor()){
+                case BLACK:
+                    blackScore += p.getWorth();
+                    blackScore += this.getMoves(p.getLocation()).size() * 0.1;
+                    break;
+                case WHITE:
+                    whiteScore += p.getWorth();
+                    whiteScore += this.getMoves(p.getLocation()).size() * 0.1;
+                    break;
+            }
         }
-        
+    
+        scores.put(PlayerColors.WHITE,whiteScore);
+        scores.put(PlayerColors.BLACK,blackScore);
         return scores.get(color) / scores.get(color.getOppositeColor());
     }
 }

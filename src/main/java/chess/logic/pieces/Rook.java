@@ -43,4 +43,10 @@ public class Rook extends Piece {
     public Piece copy() {
         return new Rook(this);
     }
+    
+    
+    @Override
+    public int getWorth() {
+        return 5;
+    }
 }

@@ -46,4 +46,10 @@ public class King extends Piece {
     public Piece copy() {
         return new King(this);
     }
+    
+    
+    @Override
+    public int getWorth() {
+        return 100;
+    }
 }

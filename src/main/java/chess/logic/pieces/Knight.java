@@ -43,4 +43,10 @@ public class Knight extends Piece {
     public Piece copy() {
         return new Knight(this);
     }
+    
+    
+    @Override
+    public int getWorth() {
+        return 3;
+    }
 }

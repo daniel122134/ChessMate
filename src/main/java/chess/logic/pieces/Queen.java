@@ -46,4 +46,10 @@ public class Queen extends Piece {
     public Piece copy() {
         return new Queen(this);
     }
+    
+    
+    @Override
+    public int getWorth() {
+        return 7;
+    }
 }

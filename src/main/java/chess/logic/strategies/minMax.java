@@ -18,15 +18,23 @@ public class minMax implements Tactic {
     
     public MoveCandidate getBestMoveForBoard(Board board, PlayerColors player, int depthToGo) {
         MoveCandidate move = null;
-        ArrayList<Piece> pieces = board.getAllLivePiecesForColor(player);
+        Board tempBoard = new Board(board);
+        ArrayList<Piece> pieces = tempBoard.getAllLivePiecesForColor(player);
         for (Piece p : pieces) {
             Point pointSrc = p.getLocation();
-            ArrayList<Point> points = board.getMoves(pointSrc);
-            for (Point pointDst : points) {
-                Board afterMove = board.getBoardAfterMove(pointSrc, pointDst);
-                Double score = getBestScoreForBoard(afterMove, player, player.getOppositeColor(), depthToGo);
+            ArrayList<Point> points = tempBoard.getMoves(pointSrc);
+            for (Point dstPoint : points) {
+                Point srcPoint = p.getLocation();
+                Piece dstPiece = tempBoard.getPieceAtLocation(dstPoint);
+                tempBoard._move(srcPoint, dstPoint);
+//                Board afterMove = tempBoard.getBoardAfterMove(pointSrc, dstPoint);
+                Double score = getBestScoreForBoard(tempBoard, player, player.getOppositeColor(), depthToGo -1);
+                tempBoard._move(dstPoint, srcPoint);
+                if (dstPiece!=null){
+                    tempBoard.placePiece(dstPiece,dstPiece.getLocation());
+                }
                 if (move == null || score > move.getScore()) {
-                    move = new MoveCandidate(pointSrc, pointDst, score);
+                    move = new MoveCandidate(pointSrc, dstPoint, score);
                 }
             }
         }
@@ -42,9 +50,16 @@ public class minMax implements Tactic {
         ArrayList<Piece> pieces = board.getAllLivePiecesForColor(currentTurn);
         for (Piece p : pieces) {
             ArrayList<Point> points = board.getMoves(p.getLocation());
-            for (Point point : points) {
-                Board afterMove = board.getBoardAfterMove(p.getLocation(), point);
-                Double score = getBestScoreForBoard(afterMove, player, currentTurn.getOppositeColor(), depthToGo - 1);
+            for (Point dstPoint : points) {
+//                Board afterMove = board.getBoardAfterMove(p.getLocation(), point);
+                Point srcPoint = p.getLocation();
+                Piece dstPiece = board.getPieceAtLocation(dstPoint);
+                board._move(srcPoint, dstPoint);
+                Double score = getBestScoreForBoard(board, player, currentTurn.getOppositeColor(), depthToGo - 1);
+                board._move(dstPoint, srcPoint);
+                if (dstPiece!=null){
+                    board.placePiece(dstPiece,dstPiece.getLocation());
+                }
                 max = max != null ? Math.max(score, max) : score;
                 min = min != null ? Math.min(score, min) : score;
                 

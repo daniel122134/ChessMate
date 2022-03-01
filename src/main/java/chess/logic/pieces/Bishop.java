@@ -33,7 +33,12 @@ public class Bishop extends Piece {
         return moves;
 
     }
-
+    
+    @Override
+    public int getWorth() {
+        return 3;
+    }
+    
     @Override
     public String toString() {
         return "♝";

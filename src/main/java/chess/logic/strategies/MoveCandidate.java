@@ -32,4 +32,8 @@ public class MoveCandidate {
     public Point getSrc() {
         return src;
     }
+    
+    public String toString(){
+        return String.format("%s,%s", src,dst);
+    }
 }
