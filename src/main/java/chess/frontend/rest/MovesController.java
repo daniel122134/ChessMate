@@ -35,9 +35,10 @@ public class MovesController {
             move = new minMax().getMove(PlayerColors.BLACK, 3);
             
         } else {
-            move = new minMax().getMove(PlayerColors.WHITE, 4);  // level was 3
+            move = new minMax().getMove(PlayerColors.WHITE, 2);  // level was 3
         }
         System.out.print(move);
+        System.out.print(game.board.getPieceAtLocation(move.getSrc()));
         System.out.println(game.currentTurn.getColor());
         game.move(move.getSrc(), move.getDst());
         ArrayList<Point> points = new ArrayList<>();
