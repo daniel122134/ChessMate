@@ -23,7 +23,7 @@ public class MovesController {
     public MovesResponse greeting(
         @RequestParam(value = "x") int x, @RequestParam(value = "y") int y) {
         
-        ArrayList<Point> points = game.board.getMoves(new Point(x, y));
+        ArrayList<Point> points = game.board.getMovesFiltered(new Point(x, y));
         
         return new MovesResponse(counter.incrementAndGet(), points);
     }
@@ -35,7 +35,7 @@ public class MovesController {
             move = new minMax().getMove(PlayerColors.BLACK, 3);
             
         } else {
-            move = new minMax().getMove(PlayerColors.WHITE, 2);  // level was 3
+            move = new minMax().getMove(PlayerColors.WHITE, 3);  // level was 3
         }
         System.out.print(move);
         System.out.print(game.board.getPieceAtLocation(move.getSrc()));

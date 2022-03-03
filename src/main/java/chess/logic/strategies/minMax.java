@@ -22,7 +22,7 @@ public class minMax implements Tactic {
         ArrayList<Piece> pieces = tempBoard.getAllLivePiecesForColor(player);
         for (Piece p : pieces) {
             Point pointSrc = p.getLocation();
-            ArrayList<Point> points = tempBoard.getMoves(pointSrc);
+            ArrayList<Point> points = tempBoard.getMovesFiltered(pointSrc);
             for (Point dstPoint : points) {
                 Point srcPoint = p.getLocation();
                 Piece dstPiece = tempBoard.getPieceAtLocation(dstPoint);
@@ -49,7 +49,7 @@ public class minMax implements Tactic {
         Double min = null;
         ArrayList<Piece> pieces = board.getAllLivePiecesForColor(currentTurn);
         for (Piece p : pieces) {
-            ArrayList<Point> points = board.getMoves(p.getLocation());
+            ArrayList<Point> points = board.getMovesFiltered(p.getLocation());
             for (Point dstPoint : points) {
 //                Board afterMove = board.getBoardAfterMove(p.getLocation(), point);
                 Point srcPoint = p.getLocation();

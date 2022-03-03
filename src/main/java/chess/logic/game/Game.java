@@ -51,7 +51,7 @@ public class Game {
         if (!Objects.equals(pieceToMove.getColor(), this.currentTurn)) {
             return false;
         }
-        ArrayList<Point> allowed = this.board.getMoves(src);
+        ArrayList<Point> allowed = this.board.getMovesFiltered(src);
         return allowed.contains(dst);
     }
     

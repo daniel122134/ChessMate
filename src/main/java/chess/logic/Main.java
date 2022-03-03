@@ -16,7 +16,7 @@ public class Main {
         while (true) {
             int x = (int) (Math.random() * 8);
             int y = (int) (Math.random() * 8);
-            ArrayList<Point> points = game.board.getMoves(new Point(x, y));
+            ArrayList<Point> points = game.board.getMovesFiltered(new Point(x, y));
             if (points.size() > 0) {
                 try {
                     game.move(new Point(x, y), points.get((int) Math.random() * points.size()));
